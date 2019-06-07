@@ -1,4 +1,4 @@
-# map
+# The Treasury of Lives Map
 Dynamic map of the Tibetan cultural region rendered with Mapbox GL JS and Vue.js.
 
 ![sample image of the map](https://treasuryoflives.org/images/map-gl.png "Treasury of Lives Map")
