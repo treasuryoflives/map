@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>The Treasury of Lives: A Biographical Encyclopedia of Tibet, Inner Asia and the Himalayan Region</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="The Treasury of Lives is a biographical encyclopedia of Tibet, Inner Asia, and the Himalaya. Most biographies are peer reviewed.">
+    <link href="https://fonts.googleapis.com/css?family=Cardo:400,400i,700&amp;subset=latin-ext" rel="stylesheet">
+
+    <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js"></script>
+    <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<div id="vue_layers_toggle">
+
+    <div class="map-gl-search">
+        <form name="search" onsubmit="return searchMap()">
+            <input id="glass" type="submit" value="">
+            <span id="clear_search" onclick="clearSearch()">&#215;</span>
+            <input type="text" placeholder="Search Features" id="search_terms" maxlength="1000" class="ui-autocomplete-input" autocomplete="off" oninput="checkClearedSearch()">
+        </form>
+        <div id="no_results">
+            <em>Your search produced no results. <span v-show="!allFeaturesChecked">There may be results in a feature layer that is currently hidden.</span></em>
+        </div>
+    </div>
+
+    <div class="map-gl-toggle-language">
+        <strong><a class="pointer" id="toggleLang" onclick="toggleLanguage()">བོད་ཡིག</a></strong>
+    </div>
+
+    <div class="map-gl-toggle-layers">
+        <img src="images/map_layers.png" style="width:24px;height:24px;background:transparent;cursor:pointer;" @click="toggleLayerList">
+        <div v-show="visible" v-cloak>
+            <label><input type="checkbox" v-model="satellite" @change="toggleSatellite"> Satellite</label>
+            <label><input type="checkbox" v-model="folkRegions" @change="toggleLayer('folkRegions')"> Folk Regions</label>
+            <label><input type="checkbox" v-model="countySeats" @change="toggleLayer('countySeats')"> County Seats</label>
+            <label><input type="checkbox" :checked="allFeaturesChecked" @change.prevent="toggleAllFeatures"> Feature</label>
+            <ul class="feature-list">
+                <label><input type="checkbox" v-model="features.hermitages" @change="refreshFeatures"> Hermitages ({{counts.hermitages}})</label>
+                <label><input type="checkbox" v-model="features.monasteries" @change="refreshFeatures"> Monasteries ({{counts.monasteries}})</label>
+                <label><input type="checkbox" v-model="features.stupas" @change="refreshFeatures"> Stupas ({{counts.stupas}})</label>
+                <label><input type="checkbox" v-model="features.temples" @change="refreshFeatures"> Temples ({{counts.temples}})</label>
+                <label><input type="checkbox" v-model="features.manorhouse" @change="refreshFeatures"> Manor Houses ({{counts.manorhouse}})</label>
+                <label><input type="checkbox" v-model="features.palaces" @change="refreshFeatures"> Palaces ({{counts.palaces}})</label>
+                <label><input type="checkbox" v-model="features.governmentbuildings" @change="refreshFeatures"> Government Buildings ({{counts.governmentbuildings}})</label>
+                <label><input type="checkbox" v-model="features.lakes" @change="refreshFeatures"> Lakes ({{counts.lakes}})</label>
+                <label><input type="checkbox" v-model="features.castles" @change="refreshFeatures"> Castles ({{counts.castles}})</label>
+                <label><input type="checkbox" v-model="features.mountains" @change="refreshFeatures"> Mountains ({{counts.mountains}})</label>
+                <label><input type="checkbox" v-model="features.hospitals" @change="refreshFeatures"> Hospitals ({{counts.hospitals}})</label>
+                <label><input type="checkbox" v-model="features.hiddenvalley" @change="refreshFeatures"> Hidden Valleys ({{counts.hiddenvalley}})</label>
+                <label><input type="checkbox" v-model="features.schools" @change="refreshFeatures"> Schools ({{counts.schools}})</label>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+<div id="map"></div>
+
+<div id="map_loading_image" style="position:fixed;top:calc(50% - 20px);left:calc(50% - 20px);"><img src="images/loading.gif" width="40" height="40"></div>
+
+<div id="vue_modal" v-cloak>
+    <transition name="modal" v-if="showModal">
+        <div class="modal-mask">
+            <div class="modal-wrapper">
+                <div class="modal-container" @click.stop>
+
+                    <div class="modal-header">
+                        <h3 v-html="community.community_name"></h3>
+                        <span class="founded" v-html="community.founded_date"></span>
+                    </div>
+
+                    <div class="modal-body">
+                        <div v-if="community.no_image" class="no-image-overlay">
+                            <p class="no-image-overlay-text">
+                                We do not have an image for this site.
+                                Contact us at <a target="_blank" :href="'mailto:contact@treasuryoflives.org?subject=' + community.community_name" style="text-decoration:underline;">contact@treasuryoflives.org</a> if you'd like to share one.
+                            </p>
+                        </div>
+                        <img :src="'https://treasuryoflives.org' + community.image_path + '?w=373&h=200'" style="margin-bottom:10px;width:373px;height:200px;">
+                        <div v-html="community.description"></div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <a :href="'https://treasuryoflives.org/geographies/view/place/TBRC_' + (community.tbrc_id ? community.tbrc_id : community.tol_id)" target="_blank" class="view-community-link" v-html="'VIEW ' + community.community_name + ' PAGE'"></a>
+                        <button class="modal-default-button" @click="showModal = false">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </transition>
+</div>
+
+<script src="data/communities.js" charset="utf-8"></script>
+<script src="data/county-seats.js" charset="utf-8"></script>
+<script src="data/folk-regions.js" charset="utf-8"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.22"></script>
+<script src="js/treasury-mapbox.js" charset="utf-8"></script>
+
+</body>
+</html>

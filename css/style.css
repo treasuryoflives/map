@@ -1,0 +1,229 @@
+body { 
+	margin:0; 
+	padding:0; 
+}
+#map { 
+	position:absolute;
+	top:0;
+	bottom:0;
+	width:100%; 
+}
+.mapbox-improve-map {
+    display: none;
+}
+#glass {
+    width: 30px;
+    height: 38px;
+    position: absolute;
+    top: 0;
+    right: 3px;
+    background: transparent url(../images/bkg-icon-search.png) no-repeat 4px 8px;
+    background-size: 20px 20px;
+    border: 0;
+}
+
+#clear_search {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 40px;
+    font-size: 30px;
+    cursor: pointer;
+    width: 30px;
+    height: 38px;
+    color: #798F80;
+}
+
+#search_terms {
+    width: 400px;
+    padding: 10px;
+}
+
+.global-search {
+    display: none;
+}
+.modal-mask {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    display: table;
+    transition: opacity .3s ease;
+}
+
+.modal-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.modal-container {
+    width: 373px;
+    margin: 0px auto;
+    padding: 20px 30px;
+    background-color: #e9e7dd;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+    transition: all .3s ease;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.founded {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    color: #819974;
+    line-height: 24px;
+    letter-spacing: 0;
+}
+
+.modal-header h3 {
+    margin-top: 0;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 26px;
+    color: #373330;
+    line-height: 32px;
+    letter-spacing: 0;
+}
+.modal-body {
+    margin: 10px 0;
+    font-family: 'Cardo', Georgia, serif;
+    font-size: 16px;
+    color: #555555;
+    line-height: 20px;
+    letter-spacing: 0;
+}
+.modal-default-button {
+    float: right;
+}
+
+.modal-footer {
+    padding-bottom: 20px;
+}
+.modal-enter {
+    opacity: 0;
+}
+
+.modal-leave-active {
+    opacity: 0;
+}
+
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+.view-community-link {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    color: #555;
+    line-height: 15px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+.map-gl-toggle-language {
+    position: absolute;
+    top: 134px;
+    left: 10px;
+    z-index: 10000;
+    font-size:18px;
+    background-color: #ffffff;
+    padding: 5px;
+    border: solid 1px #C8CDA4;
+    box-shadow: 5px 3px 3px #C8CDA4;
+}
+.map-gl-toggle-language a {
+    color: #000000;
+}
+.map-gl-search {
+    position: absolute;
+    top: 64px;
+    left: 10px;
+    z-index: 10000;
+}
+.map-gl-toggle-layers {
+    position: absolute;
+    top: 195px;
+    left: 10px;
+    z-index: 10000;
+    font-size:13px;
+    background-color: #ffffff;
+    border: solid 1px #C8CDA4;
+    padding: 5px;
+    box-shadow: 5px 3px 3px #C8CDA4;
+}
+.feature-list {
+    list-style-type:none;
+    padding-left:20px;
+    font-size:12px;
+}
+.map-gl-toggle-layers label {
+    display: block;
+}
+#no_results {
+    border: solid 1px #C8CDA4;
+    padding: 5px;
+    box-shadow: 5px 3px 3px #C8CDA4;
+    font-size: 12px;
+}
+.pointer-underline {
+    cursor: pointer;
+    text-decoration: underline;
+}
+.pointer {
+    cursor: pointer;
+}
+[v-cloak] {
+    display: none;
+}
+
+#no_results {
+    display: none;
+    background-color: #ffffff;
+    padding: 5px;
+}
+
+.modal-body {
+    position: relative;
+}
+
+.no-image-overlay {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    width:100%;
+}
+
+.no-image-overlay-text {
+    padding: 0 20px;
+    font-family:Arial;
+    width: 373px;
+    text-align:left;
+    box-sizing: border-box;
+}
+.modal-mask, .modal-container {
+    z-index: 10001;
+}
+
+[v-cloak] {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+	#map {
+		top: 56px;
+	}
+	.map-gl-toggle-language {
+		top: 120px;
+	}
+	.map-gl-search {
+		top: 74px;
+	}
+    #search_terms {
+        width: 200px;
+    }
+    .map-gl-toggle-layers input[type="checkbox"] {
+        -webkit-appearance: checkbox;
+    }
+}

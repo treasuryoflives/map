@@ -1,4 +1,6 @@
 
+mapboxgl.accessToken = '<YOUR_MAPBOX_ACCESS_TOKEN>';
+
 var initialStyle = 'mapbox://styles/treasuryoflives/cjrghwm5q0tl62sogcn3eig71?fresh=true';
 
 var zoomThreshold = {
@@ -223,7 +225,6 @@ bindUserEvents();
 var vm = initModal();
 
 function initMap() {
-    mapboxgl.accessToken = 'pk.eyJ1IjoidHJlYXN1cnlvZmxpdmVzIiwiYSI6ImNqdjc2M2I2NjBjbW0zeXMxcm9rcTVqcXQifQ.gWjwhX8LxCcAERRvLlfiUw';
 
     var map = new mapboxgl.Map({
         container: 'map',
@@ -519,7 +520,7 @@ function isInZoomRange(feature) {
 }
 
 function showModal(geoJsonCommunity) {
-    $.getJSON('/api/place/' + geoJsonCommunity.community_id)
+    $.getJSON('https://treasuryoflives.org/api/place/' + geoJsonCommunity.community_id)
         .then(function (res) {
             // merge the data we already have with the data we just fetched
             var community = Object.assign(geoJsonCommunity, res.community);
