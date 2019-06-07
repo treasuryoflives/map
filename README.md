@@ -1,6 +1,9 @@
 # map
 Dynamic map of the Tibetan cultural region rendered with Mapbox GL JS and Vue.js.
 
+![sample image of the map](https://treasuryoflives.org/images/map-gl.png "Treasury of Lives Map")
+
+
 ## Usage
 1. Clone or download the repository.
 2. Add your Mapbox access token at the top of `js/treasury-mapbox.js` [Read more about access tokens](https://docs.mapbox.com/help/how-mapbox-works/access-tokens/)
